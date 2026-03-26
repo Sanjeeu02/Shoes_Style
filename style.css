@@ -345,17 +345,17 @@ h1, h2, h3 {
 .split-images {
     flex: 1;
     position: relative;
-    height: 500px;
+    margin-bottom: 50px; /* Provides safe space for the floating sub-image below it */
 }
 
 .main-img {
-    width: 85%;
-    height: 100%;
+    width: 95%;
+    height: auto;
     object-fit: cover;
     border-radius: 8px;
-    position: absolute;
-    top: 0;
-    right: 0;
+    position: relative;
+    display: block;
+    margin-left: auto;
     z-index: 1;
 }
 
@@ -882,8 +882,8 @@ h1, h2, h3 {
     .nav-links a::after { display: none; }
     
     .split-layout { flex-direction: column; }
-    .split-images { height: 400px; width: 100%; margin-top: 40px; }
-    .main-img { width: 90%; }
+    .split-images { height: auto; width: 100%; margin-top: 40px; margin-bottom: 60px; }
+    .main-img { width: 100%; position: relative; margin: 0 auto; }
     .services-grid, .review-grid, .footer-grid { grid-template-columns: 1fr; }
     .categories-grid { grid-template-columns: repeat(2, 1fr); }
     .hero-content h1 { font-size: 3rem; }
