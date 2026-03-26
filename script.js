@@ -12,6 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinksList = document.getElementById('nav-links');
+    
+    if(mobileMenu && navLinksList) {
+        mobileMenu.addEventListener('click', () => {
+            navLinksList.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        navLinksList.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksList.classList.remove('active');
+            });
+        });
+    }
+
     // Intersection Observer for scroll animations
     const revealElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right');
 
