@@ -26,8 +26,8 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 5; /* Above Hero video, below most text/images */
-    opacity: 0.15;
+    z-index: -1; /* BEHIND everything - never overlaps content */
+    opacity: 0.08;
 }
 
 .asset {
@@ -933,39 +933,51 @@ h1, h2, h3 {
     /* --- SHOWCASE IMAGES: Zero-Overlap Safe Layout --- */
     .split-layout { flex-direction: column; }
     
+    .showcase {
+        overflow: hidden; /* CRITICAL: contain images inside this section */
+        padding-bottom: 60px;
+    }
+    
     .split-images {
         width: 100%;
         margin-top: 40px;
-        /* NO margin-bottom trickery - let it flow naturally */
         position: relative;
-        padding-bottom: 0;
+        /* No overflow here - let showcase handle containment */
     }
     
-    /* Main image takes full width, normal flow */
+    /* Main image: full width, normal flow */
     .main-img {
         width: 100%;
         position: relative;
         display: block;
-        margin: 0 auto;
+        margin: 0;
         z-index: 1;
     }
     
-    /* Sub image: RELATIVE position, shifted up with negative margin-top
-       to create the visual overlap, but stays IN the document flow
-       so it CANNOT overflow into the next section */
+    /* Sub image: stays IN flow via relative position.
+       Negative margin-top creates visual overlap.
+       Animation OFF so float transform cannot escape the box. */
     .sub-img {
-        width: 65%;
-        position: relative;  /* KEY: stays in flow, no absolute bleed */
+        width: 60%;
+        position: relative;
         display: block;
-        margin: -60px auto 0 auto; /* Negative top margin = visual overlap, centered */
-        transform: translateX(-15%); /* Shift left for aesthetic offset */
+        margin: -40px 0 0 auto; /* Pull up 40px, align right */
         z-index: 2;
-        animation: luxury-float 10s ease-in-out infinite;
+        transform: none !important; /* No float override */
+        animation: none !important; /* NO float animation on mobile */
     }
 
     /* Other grids */
     .services-grid, .review-grid, .footer-grid { grid-template-columns: 1fr; }
     .categories-grid { grid-template-columns: repeat(2, 1fr); }
+    
+    /* Ensure categories section never gets covered by showcase overflow */
+    .categories-section {
+        padding-top: 60px;
+        position: relative;
+        z-index: 10;
+        background-color: var(--bg-light);
+    }
 }
 
 @media (max-width: 600px) {
