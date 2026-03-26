@@ -884,8 +884,32 @@ h1, h2, h3 {
     .nav-links a::after { display: none; }
     
     .split-layout { flex-direction: column; }
-    .split-images { height: auto; width: 100%; margin-top: 40px; margin-bottom: 60px; }
-    .main-img { width: 100%; position: relative; margin: 0 auto; }
+    .split-images { 
+        height: auto; 
+        width: 100%; 
+        margin-top: 40px; 
+        margin-bottom: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .main-img { 
+        width: 100%; 
+        position: relative; 
+        margin: 0 auto; 
+        display: block; 
+    }
+    .sub-img { 
+        width: 80%; 
+        position: relative; 
+        bottom: auto; 
+        left: auto; 
+        display: block;
+        margin: 0 auto;
+        transform: none; 
+        animation: none; 
+    }
     .services-grid, .review-grid, .footer-grid { grid-template-columns: 1fr; }
     .categories-grid { grid-template-columns: repeat(2, 1fr); }
     .hero-content h1 { font-size: 3rem; }
@@ -898,17 +922,6 @@ h1, h2, h3 {
     .hero-btns { flex-direction: column; gap: 15px; }
     
     .showcase, .services, .reviews, .footer { padding: 50px 0; }
-    
-    .split-images { 
-        height: auto; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        gap: 15px; 
-        margin-bottom: 20px;
-    }
-    .main-img { position: relative; width: 100%; border-width: 3px; border-radius: 10px; margin: 0; }
-    .sub-img { position: relative; width: 90%; bottom: auto; left: auto; border-width: 3px; transform: none; animation: none; align-self: center; margin-top: 10px; }
     
     .categories-grid { grid-template-columns: 1fr; gap: 20px; margin-top: 30px; }
     
