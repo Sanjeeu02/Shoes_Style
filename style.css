@@ -898,64 +898,74 @@ h1, h2, h3 {
     z-index: 2100;
 }
 
-/* Responsive */
+/* ============================================================
+   RESPONSIVE - TABLETS & MOBILE (max-width: 900px)
+   ============================================================ */
 @media (max-width: 900px) {
     .menu-toggle { display: flex; }
     .desktop-only { display: none; }
+    .navbar { padding: 10px 5%; }
     
+    /* Mobile Nav Dropdown */
     .nav-links {
         display: none;
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: rgba(255,255,255,0.95);
-        backdrop-filter: blur(15px); /* Opaque background for Android readability */
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background-color: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         flex-direction: column;
         padding: 30px 0;
         text-align: center;
-        gap: 25px;
-        z-index: 2000;
+        gap: 20px;
+        z-index: 3000;
     }
-    
-    .nav-links.active {
-        display: flex !important;
-    }
-    
-    .nav-links a { color: var(--primary-color); font-size: 1.1rem; font-weight: 700; display: block; padding: 10px; }
+    .nav-links.active { display: flex !important; }
+    .nav-links a { color: var(--primary-color); font-size: 1.1rem; font-weight: 700; display: block; padding: 12px 20px; }
     .nav-links a::after { display: none; }
+
+    /* Hero */
+    .hero { min-height: 80vh; }
+    .hero-content h1 { font-size: 2.8rem; }
     
+    /* --- SHOWCASE IMAGES: Zero-Overlap Safe Layout --- */
     .split-layout { flex-direction: column; }
-    .split-images { 
-        height: auto; 
-        width: 100%; 
-        margin-top: 40px; 
-        margin-bottom: 150px; /* Massive space for the overlap on mobile */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    
+    .split-images {
+        width: 100%;
+        margin-top: 40px;
+        /* NO margin-bottom trickery - let it flow naturally */
+        position: relative;
+        padding-bottom: 0;
     }
-    .main-img { 
-        width: 100%; 
-        position: relative; 
-        margin: 0 auto; 
-        display: block; 
-    }
-    .sub-img { 
-        width: 70%; 
-        position: absolute; 
-        bottom: -100px; /* Luxury overlap restored specifically for Android */
-        left: 10%; 
+    
+    /* Main image takes full width, normal flow */
+    .main-img {
+        width: 100%;
+        position: relative;
         display: block;
-        transform: none; 
-        z-index: 5;
+        margin: 0 auto;
+        z-index: 1;
     }
+    
+    /* Sub image: RELATIVE position, shifted up with negative margin-top
+       to create the visual overlap, but stays IN the document flow
+       so it CANNOT overflow into the next section */
+    .sub-img {
+        width: 65%;
+        position: relative;  /* KEY: stays in flow, no absolute bleed */
+        display: block;
+        margin: -60px auto 0 auto; /* Negative top margin = visual overlap, centered */
+        transform: translateX(-15%); /* Shift left for aesthetic offset */
+        z-index: 2;
+        animation: luxury-float 10s ease-in-out infinite;
+    }
+
+    /* Other grids */
     .services-grid, .review-grid, .footer-grid { grid-template-columns: 1fr; }
     .categories-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero-content h1 { font-size: 2.8rem; }
-    .hero { min-height: 80vh; }
-    .navbar { padding: 10px 5%; }
 }
 
 @media (max-width: 600px) {
