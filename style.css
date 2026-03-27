@@ -26,7 +26,8 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -1; /* BEHIND everything - never overlaps content */
+    overflow: hidden; /* Icons cannot widen the page */
+    z-index: -1;
     opacity: 0.08;
 }
 
@@ -47,7 +48,15 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px; /* Fixed header compensation */
+    scroll-padding-top: 100px;
+    overflow-x: hidden; /* Prevent horizontal scroll globally */
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    overflow-x: hidden; /* Belt-and-suspenders: also clip on body */
 }
 
 body {
@@ -254,7 +263,7 @@ h1, h2, h3 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    overflow: visible;
+    overflow: hidden; /* Clip bg-video bleed */
     padding: 120px 0 80px;
 }
 
