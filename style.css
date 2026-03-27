@@ -793,6 +793,30 @@ h1, h2, h3 {
     background-color: var(--bg-light);
     padding: 0 0 100px 0;
     overflow: hidden;
+    /* Fade the whole section in on scroll */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.collection-slider-wrapper.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Section title gold underline slide-in */
+.collection-slider-wrapper .section-title {
+    position: relative;
+    overflow: hidden;
+}
+
+.collection-slider-wrapper .section-title::after {
+    width: 0;
+    animation: title-line-grow 0.8s 0.4s ease forwards;
+}
+
+@keyframes title-line-grow {
+    to { width: 60px; }
 }
 
 .slider-container {
@@ -806,11 +830,21 @@ h1, h2, h3 {
     display: flex;
     gap: 30px;
     width: max-content;
-    animation: scroll-left 90s linear infinite;
+    animation: scroll-left 60s linear infinite; /* Slower = more cinematic on mobile */
 }
 
-.slider-track:hover {
+.slider-track:hover,
+.slider-track:active {
     animation-play-state: paused;
+}
+
+/* Each image with shimmer overlay & touch lift */
+.slider-img-wrap {
+    position: relative;
+    display: inline-block;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .slider-img {
@@ -818,17 +852,50 @@ h1, h2, h3 {
     width: auto;
     border-radius: 12px;
     object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
     cursor: pointer;
+}
+
+/* Shimmer gloss overlay on each image */
+.slider-img::after,
+.slider-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,255,255,0.25) 50%,
+        transparent 70%
+    );
+    transform: translateX(-100%);
+    animation: img-shimmer 4s ease-in-out infinite;
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+@keyframes img-shimmer {
+    0%   { transform: translateX(-100%); }
+    40%  { transform: translateX(200%);  }
+    100% { transform: translateX(200%);  }
+}
+
+/* Touch / tap feedback — scale + golden glow */
+.slider-img:active {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 3px var(--secondary-color), 0 20px 50px rgba(212,175,55,0.35);
+    filter: brightness(1.08);
 }
 
 .slider-img:hover {
     transform: scale(1.05);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
 
 @keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 15px)); /* shift exactly half the width minus half the gap */ }
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 15px)); }
 }
 
 /* Categories Section */
@@ -849,7 +916,23 @@ h1, h2, h3 {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: var(--transition-fast);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    /* Each card slides in from below when scrolled into view */
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.category-card.in-view {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease,
+                box-shadow 0.35s ease;
+}
+
+/* Touch / tap glow on mobile */
+.category-card:active {
+    box-shadow: 0 0 0 3px var(--secondary-color), 0 12px 30px rgba(212,175,55,0.25);
+    transform: scale(0.98);
 }
 
 .category-card:hover {

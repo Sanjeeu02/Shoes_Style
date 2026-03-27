@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Intersection Observer for scroll animations
+    // Intersection Observer for reveal animations
     const revealElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right');
 
     const revealOptions = {
@@ -39,26 +39,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const revealOnScroll = new IntersectionObserver(function(entries, observer) {
         entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            }
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
         });
     }, revealOptions);
 
-    revealElements.forEach(el => {
-        revealOnScroll.observe(el);
-    });
-    
-    // Make sure the very top elements reveal immediately if they are in viewport
-    setTimeout(() => {
-        const heroContent = document.querySelector('.hero-content.reveal');
-        if (heroContent) {
-            heroContent.classList.add('active');
-        }
-    }, 100);
+    revealElements.forEach(el => revealOnScroll.observe(el));
+
+    // ── Collection Slider: fade-in section when scrolled into view ──
+    const sliderWrapper = document.querySelector('.collection-slider-wrapper');
+    if (sliderWrapper) {
+        const sliderObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    sliderObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        sliderObserver.observe(sliderWrapper);
+    }
+
+    // ── Category Cards: staggered slide-up when each enters view ──
+    const categoryCards = document.querySelectorAll('.category-card');
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                // stagger each card by 100ms
+                const idx = Array.from(categoryCards).indexOf(entry.target);
+                setTimeout(() => {
+                    entry.target.classList.add('in-view');
+                }, idx * 120);
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    categoryCards.forEach(card => cardObserver.observe(card));
+
+
 
     // Dynamic Category Photo Swap Logic
     const categoryImages = {
